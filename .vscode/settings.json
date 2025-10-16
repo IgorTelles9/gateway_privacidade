@@ -1,0 +1,31 @@
+{
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-b>": false,
+    "<C-c>": false,
+    "<C-d>": false,
+    "<C-e>": false,
+    "<C-f>": false,
+    "<C-g>": false,
+    "<C-h>": false,
+    "<C-i>": false,
+    "<C-j>": false,
+    "<C-k>": false,
+    "<C-l>": false,
+    "<C-m>": false,
+    "<C-n>": false,
+    "<C-o>": false,
+    "<C-p>": false,
+    "<C-q>": false,
+    "<C-r>": false,
+    "<C-s>": false,
+    "<C-t>": false,
+    "<C-u>": false,
+    "<C-y>": false,
+    "<C-z>": false,
+    "<C-x>": false,
+    "<C-v>": false,
+    "<C-w>": false,
+    "<C->": false
+  }
+}
