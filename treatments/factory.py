@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 from .base_strategy import TreatmentStrategy
 from .raw_strategy import RawStrategy
 from .gaussian_noise_strategy import GaussianNoiseStrategy
@@ -13,7 +13,7 @@ STRATEGY_MAP = {
 
 ACCUMULATED_STRATEGY_LIST = ["AVG"]
 
-def get_treatment_strategy(strategy_name: str) -> Optional[TreatmentStrategy | AccumulatedStrategy]:
+def get_treatment_strategy(strategy_name: str) -> Optional[Union[TreatmentStrategy | AccumulatedStrategy]]:
     """ Retorna a estratégia de tratamento correspondente ao nome fornecido. """
     strategy_class = STRATEGY_MAP.get(strategy_name.upper())
     if strategy_class:

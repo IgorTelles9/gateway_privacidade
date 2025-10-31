@@ -8,7 +8,7 @@ load_dotenv()
 redis_host = os.getenv("REDIS_HOST")
 redis_port = int(os.getenv("REDIS_PORT"))
 CACHE_MAX_AGE = int(os.getenv("CACHE_TTL_TIME"))
-AGGREGATION_QUEUE_KEY = os.getenv("AGGREGATION_QUEUE_KEY")
+AGGREGATION_QUEUE_KEY = os.getenv("AGGREGATION_TASK_QUEUE")
 
 class CacheManager:
     def __init__(self):
