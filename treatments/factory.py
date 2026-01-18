@@ -4,9 +4,11 @@ from .raw_strategy import RawStrategy
 from .gaussian_noise_strategy import GaussianNoiseStrategy
 from .average_strategy import AverageStrategy
 from .base_accumulated_strategy import AccumulatedStrategy
+from .block_strategy import BlockStrategy
 
 STRATEGY_MAP = {
     "RAW": RawStrategy,
+    "BLOCK": BlockStrategy,
     "GNOISE": GaussianNoiseStrategy,
     "AVG": AverageStrategy,
 }

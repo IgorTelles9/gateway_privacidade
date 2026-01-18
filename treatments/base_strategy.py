@@ -5,7 +5,7 @@ class TreatmentStrategy(ABC):
     """ Class abstrata para todas as estratégias de tratamento. """
 
     @abstractmethod
-    def execute(self, payload: Dict[str, Any], policy_params: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    def execute(self, payload: Dict[str, Any], policy_params: Dict[str, Any], dispositivo_id: str) -> Optional[Dict[str, Any]]:
         """ 
         Executa o tratamento de dados.
         Args:

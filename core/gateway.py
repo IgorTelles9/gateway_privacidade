@@ -96,7 +96,7 @@ class PrivacyGateway:
 
             politica = self._get_or_fetch_policy(dispositivo_id, titular_id)
             if politica:
-                self._apply_policy(dados, politica)
+                self._apply_policy(dados, politica, dispositivo_id)
             else:
                 print(f"Nenhuma política de privacidade encontrada para o dispositivo {dispositivo_id}.")
             
@@ -113,7 +113,7 @@ class PrivacyGateway:
                 self._kickstart_aggregation_task(dispositivo_id, titular_id, politica)
         return politica
 
-    def _apply_policy(self, payload: Dict[str, Any], policy: Dict[str, Any]) -> None:
+    def _apply_policy(self, payload: Dict[str, Any], policy: Dict[str, Any], dispositivo_id: str) -> None:
         """ Aplica a política de privacidade aos dados recebidos. """
         chave_politica = policy.get("opcao_tratamento", {}).get("chave_politica")
         if not chave_politica:
@@ -127,9 +127,8 @@ class PrivacyGateway:
         if not strategy:
             print(f"Estratégia de tratamento não encontrada para a chave_politica '{chave_politica}'.")
             return
-        processed_data = strategy.execute(payload, parsed_policy["params"])
+        processed_data = strategy.execute(payload, parsed_policy["params"], dispositivo_id)
         if processed_data:
-            dispositivo_id = payload.get("dispositivo_id", "unknown")
             self.mqtt_client.publish(f"{SEND_DATA_TOPIC}/{dispositivo_id}", json.dumps(processed_data))
             print(f"Dados processados e encaminhados para o tópico de dados processados: {SEND_DATA_TOPIC}/{dispositivo_id}")
         else:
