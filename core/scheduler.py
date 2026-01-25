@@ -33,11 +33,7 @@ class Scheduler(threading.Thread):
     
     def _process_aggregation_task(self, device_id: str, titular_id: str):
         """ Processa uma tarefa de agregação de dados para um dispositivo. """
-        policy = self._get_or_fetch_policy(device_id, titular_id)
-        if not policy:
-            print(f"Nenhuma política de privacidade encontrada para o dispositivo {device_id}.")
-            return
-        chave_politica = policy.get("opcao_tratamento", {}).get("chave_politica")
+        chave_politica = self._get_or_fetch_policy(device_id, titular_id)
         data_points = cache_manager.get_and_clear_data_points(device_id, titular_id)
         if not data_points:
             print(f"Nenhum ponto de dado encontrado para o dispositivo {device_id}.")
@@ -48,7 +44,7 @@ class Scheduler(threading.Thread):
             return
         strategy = get_treatment_strategy(parsed_policy["action"])
         if not strategy:
-            print(f"Estratégia de tratamento não encontrada para a chave_politica '{policy.get('opcao_tratamento', {}).get('chave_politica')}'.")
+            print(f"Estratégia de tratamento não encontrada para a chave_politica '{chave_politica}'.")
             return
         aggregated_data = strategy.calculate_aggregated_data(data_points)
         if not aggregated_data:
@@ -82,7 +78,7 @@ class Scheduler(threading.Thread):
         politica = cache_manager.get_policy(dispositivo_id, titular_id)
         if not politica:
             mgc = MGCAPI()
-            politica = mgc.get_politica_privacidade(dispositivo_id, titular_id)
+            politica = mgc.get_politica_privacidade(titular_id, dispositivo_id)
             if politica:
                 cache_manager.set_policy(dispositivo_id, titular_id, politica)
         return politica

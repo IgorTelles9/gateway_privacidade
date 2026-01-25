@@ -107,15 +107,14 @@ class PrivacyGateway:
         """ Busca no cache ou no MGC uma política de privacidade para o dispositivo. """
         politica = cache_manager.get_policy(dispositivo_id, titular_id)
         if not politica:
-            politica = self.mgc.get_politica_privacidade(dispositivo_id, titular_id)
+            politica = self.mgc.get_politica_privacidade(titular_id, dispositivo_id)
             if politica:
                 cache_manager.set_policy(dispositivo_id, titular_id, politica)
                 self._kickstart_aggregation_task(dispositivo_id, titular_id, politica)
         return politica
 
-    def _apply_policy(self, payload: Dict[str, Any], policy: Dict[str, Any], dispositivo_id: str) -> None:
+    def _apply_policy(self, payload: Dict[str, Any], chave_politica: str, dispositivo_id: str) -> None:
         """ Aplica a política de privacidade aos dados recebidos. """
-        chave_politica = policy.get("opcao_tratamento", {}).get("chave_politica")
         if not chave_politica:
             print("Erro: Dados do dispositivo não contêm chave_politica.")
             return
@@ -134,9 +133,8 @@ class PrivacyGateway:
         else:
             print(f"Dados não processados pela política '{chave_politica}'.")
 
-    def _kickstart_aggregation_task(self, device_id:str, titular_id:str, policy:Dict[str, Any]):
+    def _kickstart_aggregation_task(self, device_id:str, titular_id:str, chave_politica:str):
         """ Inicia a tarefa de agregação de dados para um dispositivo. """
-        chave_politica = policy.get("opcao_tratamento", {}).get("chave_politica")
         if not chave_politica:
             print("Erro: Dados do dispositivo não contêm chave_politica.")
             return
